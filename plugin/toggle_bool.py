@@ -18,15 +18,22 @@ def format_value(word, toggleWord):
     return toggleWord
 
 
-def toggle_bool_value(word):
-    toggleWord = word
+def get_word(word, key):
+    idx = word.lower().find(key)
+    return word[idx:idx+len(key)]
+
+
+def toggle_bool_value(full_word):
+    toggleWord = word = full_word
     for key in values.keys():
-        if key == word.lower():
+        if key in full_word.lower():
+            word = get_word(full_word, key)
             toggleWord = values[key]
             toggleWord = format_value(word, toggleWord)
             break
-        elif values[key] == word.lower():
+        elif values[key] in full_word.lower():
+            word = get_word(full_word, values[key])
             toggleWord = key
             toggleWord = format_value(word, toggleWord)
             break
-    return toggleWord
+    return full_word.replace(word, toggleWord)
